@@ -2,7 +2,7 @@ import React from 'react'
 
 const Hero = () => {
     return (
-        <section className="relative bg-gradient-to-br from-teal-50 via-white to-blue-50 overflow-hidden pt-20 md:pt-24 pb-12 lg:pb-20">
+        <section className="relative bg-gradient-to-br from-teal-50 via-white to-blue-50 overflow-hidden pt-14 md:pt-16 pb-12 lg:pb-20">
             <div className="section-container">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     {/* Right Image (Top on mobile) */}
