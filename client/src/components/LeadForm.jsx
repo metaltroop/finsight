@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import CustomDropdown from './CustomDropdown'
 
 const LeadForm = () => {
     const [formData, setFormData] = useState({
@@ -73,12 +74,39 @@ const LeadForm = () => {
         }
 
         setIsSubmitting(true)
-        // Simulate API call
-        setTimeout(() => {
+
+        try {
+            const response = await fetch('http://localhost:3000/api/leads', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+                setIsSuccess(true)
+                setFormData({
+                    fullName: '',
+                    mobile: '',
+                    email: '',
+                    city: '',
+                    income: '',
+                    consent: false
+                })
+            } else {
+                console.error('Submission failed:', data.message)
+                // Optionally set a global error state here to show to user
+                alert(data.message || 'Something went wrong. Please try again.')
+            }
+        } catch (error) {
+            console.error('Network error:', error)
+            alert('Failed to connect to server. Please try again later.')
+        } finally {
             setIsSubmitting(false)
-            setIsSuccess(true)
-            console.log('Form submitted:', formData)
-        }, 1500)
+        }
     }
 
     if (isSuccess) {
@@ -110,24 +138,66 @@ const LeadForm = () => {
     }
 
     return (
-        <section className="bg-gray-50 py-16 md:py-24">
-            <div className="section-container">
-                <div className="max-w-3xl mx-auto">
-                    <div className="text-center mb-10">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            Get Started Today
-                        </h2>
-                        <p className="text-lg text-gray-600">
-                            Fill in your details to receive personalized offers from our partners
-                        </p>
+        <section className="py-20 lg:py-28 bg-gray-50 relative overflow-hidden" id="get-started">
+            <div className="section-container relative z-10">
+                <div className="max-w-6xl mx-auto grid lg:grid-cols-5 gap-8 items-start">
+
+                    {/* Left Card - Image & Text */}
+                    <div className="lg:col-span-2 relative min-h-[400px] h-full rounded-3xl overflow-hidden shadow-2xl group">
+                        {/* Background Image */}
+                        <div className="absolute inset-0">
+                            <img
+                                src="/assets/financial_growth_tablet.png"
+                                alt="Financial Growth"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                        </div>
+
+                        {/* Content Overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 p-8 text-white mb-10 z-10">
+                            <h3 className="text-3xl font-bold mb-3 leading-tight">
+                                Smarter decisions, <br />
+                                <span className="text-teal-400">Better future.</span>
+                            </h3>
+                            <p className="text-gray-200 text-sm leading-relaxed mb-6">
+                                Join thousands of Indians who are taking control of their financial destiny with Finsight.
+                            </p>
+
+                            {/* Trust Indicators */}
+                            <div className="flex items-center gap-4 text-xs font-medium text-white/80">
+                                <div className="flex items-center gap-1.5">
+                                    <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Data Secure
+                                </div>
+                                <div className="flex items-center gap-1.5">
+                                    <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    No Spam
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="card shadow-2xl border border-gray-100 bg-white p-6 md:p-10">
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="grid md:grid-cols-2 gap-6">
+                    {/* Right Card - Form */}
+                    <div className="lg:col-span-3 bg-white rounded-3xl shadow-xl border border-gray-100 p-6 md:p-10 relative">
+                        <div className="mb-8">
+                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                                Get Started Today
+                            </h2>
+                            <p className="text-gray-500">
+                                Fill in your details to receive personalized offers.
+                            </p>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-5">
+                            <div className="grid md:grid-cols-2 gap-5">
                                 {/* Full Name */}
                                 <div>
-                                    <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700 mb-2">
+                                    <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700 mb-1.5">
                                         Full Name *
                                     </label>
                                     <input
@@ -136,7 +206,7 @@ const LeadForm = () => {
                                         name="fullName"
                                         value={formData.fullName}
                                         onChange={handleChange}
-                                        className={`w-full px-4 py-3 border rounded-lg transition-all outline-none ${errors.fullName ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:ring-primary-100 focus:border-primary-500'}`}
+                                        className={`w-full px-4 py-3 border rounded-xl transition-all outline-none bg-gray-50 focus:bg-white ${errors.fullName ? 'border-red-500 focus:ring-red-100' : 'border-gray-200 focus:ring-primary-100 focus:border-primary-500'}`}
                                         placeholder="Enter your full name"
                                     />
                                     {errors.fullName && <p className="text-red-500 text-xs mt-1 font-medium">{errors.fullName}</p>}
@@ -144,7 +214,7 @@ const LeadForm = () => {
 
                                 {/* Mobile Number */}
                                 <div>
-                                    <label htmlFor="mobile" className="block text-sm font-semibold text-gray-700 mb-2">
+                                    <label htmlFor="mobile" className="block text-sm font-semibold text-gray-700 mb-1.5">
                                         Mobile Number *
                                     </label>
                                     <input
@@ -153,17 +223,17 @@ const LeadForm = () => {
                                         name="mobile"
                                         value={formData.mobile}
                                         onChange={handleChange}
-                                        className={`w-full px-4 py-3 border rounded-lg transition-all outline-none ${errors.mobile ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:ring-primary-100 focus:border-primary-500'}`}
+                                        className={`w-full px-4 py-3 border rounded-xl transition-all outline-none bg-gray-50 focus:bg-white ${errors.mobile ? 'border-red-500 focus:ring-red-100' : 'border-gray-200 focus:ring-primary-100 focus:border-primary-500'}`}
                                         placeholder="10-digit mobile number"
                                     />
                                     {errors.mobile && <p className="text-red-500 text-xs mt-1 font-medium">{errors.mobile}</p>}
                                 </div>
                             </div>
 
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid md:grid-cols-2 gap-5">
                                 {/* Email */}
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1.5">
                                         Email Address *
                                     </label>
                                     <input
@@ -172,7 +242,7 @@ const LeadForm = () => {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className={`w-full px-4 py-3 border rounded-lg transition-all outline-none ${errors.email ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:ring-primary-100 focus:border-primary-500'}`}
+                                        className={`w-full px-4 py-3 border rounded-xl transition-all outline-none bg-gray-50 focus:bg-white ${errors.email ? 'border-red-500 focus:ring-red-100' : 'border-gray-200 focus:ring-primary-100 focus:border-primary-500'}`}
                                         placeholder="your.email@example.com"
                                     />
                                     {errors.email && <p className="text-red-500 text-xs mt-1 font-medium">{errors.email}</p>}
@@ -180,7 +250,7 @@ const LeadForm = () => {
 
                                 {/* City */}
                                 <div>
-                                    <label htmlFor="city" className="block text-sm font-semibold text-gray-700 mb-2">
+                                    <label htmlFor="city" className="block text-sm font-semibold text-gray-700 mb-1.5">
                                         City *
                                     </label>
                                     <input
@@ -189,7 +259,7 @@ const LeadForm = () => {
                                         name="city"
                                         value={formData.city}
                                         onChange={handleChange}
-                                        className={`w-full px-4 py-3 border rounded-lg transition-all outline-none ${errors.city ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:ring-primary-100 focus:border-primary-500'}`}
+                                        className={`w-full px-4 py-3 border rounded-xl transition-all outline-none bg-gray-50 focus:bg-white ${errors.city ? 'border-red-500 focus:ring-red-100' : 'border-gray-200 focus:ring-primary-100 focus:border-primary-500'}`}
                                         placeholder="Your city"
                                     />
                                     {errors.city && <p className="text-red-500 text-xs mt-1 font-medium">{errors.city}</p>}
@@ -198,28 +268,26 @@ const LeadForm = () => {
 
                             {/* Income Range */}
                             <div>
-                                <label htmlFor="income" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="income" className="block text-sm font-semibold text-gray-700 mb-1.5">
                                     Monthly Income Range *
                                 </label>
-                                <select
-                                    id="income"
-                                    name="income"
+                                <CustomDropdown
+                                    options={[
+                                        { value: "0-25k", label: "₹0 - ₹25,000" },
+                                        { value: "25k-50k", label: "₹25,000 - ₹50,000" },
+                                        { value: "50k-1L", label: "₹50,000 - ₹1,00,000" },
+                                        { value: "1L-2L", label: "₹1,00,000 - ₹2,00,000" },
+                                        { value: "2L+", label: "₹2,00,000+" }
+                                    ]}
                                     value={formData.income}
-                                    onChange={handleChange}
-                                    className={`w-full px-4 py-3 border rounded-lg transition-all outline-none bg-white ${errors.income ? 'border-red-500' : 'border-gray-300 focus:border-primary-500'}`}
-                                >
-                                    <option value="">Select income range</option>
-                                    <option value="0-25k">₹0 - ₹25,000</option>
-                                    <option value="25k-50k">₹25,000 - ₹50,000</option>
-                                    <option value="50k-1L">₹50,000 - ₹1,00,000</option>
-                                    <option value="1L-2L">₹1,00,000 - ₹2,00,000</option>
-                                    <option value="2L+">₹2,00,000+</option>
-                                </select>
-                                {errors.income && <p className="text-red-500 text-xs mt-1 font-medium">{errors.income}</p>}
+                                    onChange={(e) => handleChange({ target: { name: 'income', value: e.target.value } })}
+                                    placeholder="Select income range"
+                                    error={errors.income}
+                                />
                             </div>
 
                             {/* Consent */}
-                            <div className="bg-teal-50/50 border border-teal-100 rounded-xl p-5">
+                            <div className="bg-teal-50 border border-teal-100 rounded-xl p-4">
                                 <label className="flex items-start gap-3 cursor-pointer">
                                     <input
                                         type="checkbox"
@@ -227,18 +295,10 @@ const LeadForm = () => {
                                         required
                                         checked={formData.consent}
                                         onChange={handleChange}
-                                        className="mt-1 w-5 h-5 text-primary-600 border-gray-300 rounded focus:ring-primary-500 cursor-pointer"
+                                        className="mt-1 w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500 cursor-pointer"
                                     />
-                                    <span className="text-sm text-gray-600 leading-relaxed">
-                                        I agree to the{' '}
-                                        <a href="#" className="text-primary-600 font-semibold hover:underline">
-                                            Terms & Conditions
-                                        </a>
-                                        {' '}and{' '}
-                                        <a href="#" className="text-primary-600 font-semibold hover:underline">
-                                            Privacy Policy
-                                        </a>
-                                        {' '}and authorize Finsight to share my details with partner banks/NBFCs for eligibility checks.
+                                    <span className="text-xs text-gray-600 leading-relaxed">
+                                        I agree to the <a href="/terms" target="_blank" className="text-primary-600 font-semibold hover:underline">Terms</a> & <a href="/privacy" target="_blank" className="text-primary-600 font-semibold hover:underline">Privacy Policy</a> and authorize Finsight to share my details with partner banks/NBFCs and receive promotional communications.
                                     </span>
                                 </label>
                             </div>
@@ -246,11 +306,18 @@ const LeadForm = () => {
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                className="w-full btn-primary text-lg py-4 relative overflow-hidden group"
+                                className="w-full btn-primary text-lg py-4 relative overflow-hidden group shadow-lg shadow-primary-600/20"
                                 disabled={!formData.consent || isSubmitting}
                             >
-                                <span className={isSubmitting ? 'opacity-0' : 'opacity-100 transition-opacity'}>
-                                    {isSubmitting ? 'Processing...' : 'Continue to partner →'}
+                                <span className={isSubmitting ? 'opacity-0' : 'opacity-100 transition-opacity flex items-center justify-center gap-2'}>
+                                    {isSubmitting ? 'Processing...' : (
+                                        <>
+                                            Find Best Offers
+                                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </>
+                                    )}
                                 </span>
                                 {isSubmitting && (
                                     <div className="absolute inset-0 flex items-center justify-center">
@@ -261,14 +328,6 @@ const LeadForm = () => {
                                     </div>
                                 )}
                             </button>
-
-                            {/* Security Note */}
-                            <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-                                <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                                </svg>
-                                <span>Your data is encrypted and secure</span>
-                            </div>
                         </form>
                     </div>
                 </div>

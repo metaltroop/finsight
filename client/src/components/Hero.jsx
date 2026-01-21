@@ -1,10 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Hero = () => {
     return (
-        <section className="relative bg-gradient-to-br from-teal-50 via-white to-blue-50 overflow-hidden pt-14 md:pt-16 pb-12 lg:pb-20">
+        <section className="relative bg-gradient-to-br from-teal-50 via-white to-blue-50 overflow-hidden pt-8 md:pt-16 pb-12 lg:pb-20">
             <div className="section-container">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                     {/* Right Image (Top on mobile) */}
                     <div className="relative order-1 lg:order-2">
                         <div className="relative rounded-3xl overflow-hidden shadow-2xl">
@@ -20,9 +21,9 @@ const Hero = () => {
                     </div>
 
                     {/* Left Content (Bottom on mobile) */}
-                    <div className="space-y-8 lg:py-20 order-2 lg:order-1">
-                        <div className="space-y-4 text-center lg:text-left">
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                    <div className="space-y-6 lg:space-y-8 lg:py-20 order-2 lg:order-1">
+                        <div className="space-y-3 lg:space-y-4 text-center lg:text-left">
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                                 Make smarter financial choices.
                             </h1>
                             <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
@@ -39,9 +40,9 @@ const Hero = () => {
                                 Check partner offers
                                 <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
                             </button>
-                            <button className="btn-secondary">
+                            <Link to="/calculators" className="btn-secondary text-center">
                                 Use free tools
-                            </button>
+                            </Link>
                         </div>
 
                         {/* Trust Indicators */}

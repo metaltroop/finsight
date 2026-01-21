@@ -1,0 +1,32 @@
+2026-01-20T06:37:04.553Z - ERROR: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+Error: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+    at Gaxios._request (D:\Projects\sonal mp 2\server\node_modules\gaxios\build\cjs\src\gaxios.js:155:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async JWT.requestAsync (D:\Projects\sonal mp 2\server\node_modules\google-auth-library\build\src\auth\oauth2client.js:463:20)
+    at async createAPIRequestAsync (D:\Projects\sonal mp 2\server\node_modules\googleapis-common\build\src\apirequest.js:308:25)
+    at async exports.uploadFile (D:\Projects\sonal mp 2\server\services\driveService.js:34:26)
+    at async exports.updateBlog (D:\Projects\sonal mp 2\server\controller\blogController.js:96:26)
+2026-01-20T07:13:26.192Z - ERROR: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+Error: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+    at Gaxios._request (D:\Projects\sonal mp 2\server\node_modules\gaxios\build\cjs\src\gaxios.js:155:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async JWT.requestAsync (D:\Projects\sonal mp 2\server\node_modules\google-auth-library\build\src\auth\oauth2client.js:463:20)
+    at async createAPIRequestAsync (D:\Projects\sonal mp 2\server\node_modules\googleapis-common\build\src\apirequest.js:308:25)
+    at async exports.uploadFile (D:\Projects\sonal mp 2\server\services\driveService.js:34:26)
+    at async exports.updateBlog (D:\Projects\sonal mp 2\server\controller\blogController.js:96:26)
+2026-01-20T07:17:41.646Z - ERROR: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+Error: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+    at Gaxios._request (D:\Projects\sonal mp 2\server\node_modules\gaxios\build\cjs\src\gaxios.js:155:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async JWT.requestAsync (D:\Projects\sonal mp 2\server\node_modules\google-auth-library\build\src\auth\oauth2client.js:463:20)
+    at async createAPIRequestAsync (D:\Projects\sonal mp 2\server\node_modules\googleapis-common\build\src\apirequest.js:308:25)
+    at async exports.uploadFile (D:\Projects\sonal mp 2\server\services\driveService.js:34:26)
+    at async exports.updateBlog (D:\Projects\sonal mp 2\server\controller\blogController.js:96:26)
+2026-01-20T07:21:12.053Z - ERROR: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+Error: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+    at Gaxios._request (D:\Projects\sonal mp 2\server\node_modules\gaxios\build\cjs\src\gaxios.js:155:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async JWT.requestAsync (D:\Projects\sonal mp 2\server\node_modules\google-auth-library\build\src\auth\oauth2client.js:463:20)
+    at async createAPIRequestAsync (D:\Projects\sonal mp 2\server\node_modules\googleapis-common\build\src\apirequest.js:308:25)
+    at async exports.uploadFile (D:\Projects\sonal mp 2\server\services\driveService.js:34:26)
+    at async exports.updateBlog (D:\Projects\sonal mp 2\server\controller\blogController.js:96:26)

@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { comparisons } from '../data/comparisons'
 import LoadPullEffect from '../components/LoadPullEffect'
+import ScrollScale from '../components/ScrollScale'
 
 const ComparePost = () => {
     const { id } = useParams()
@@ -86,66 +87,72 @@ const ComparePost = () => {
                 {/* Content */}
                 <div className="section-container -mt-10 relative z-10">
                     {/* Intro Card */}
-                    <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">At a Glance</h2>
-                        <p className="text-gray-700 text-lg leading-relaxed">
-                            {data.intro}
-                        </p>
-                    </div>
+                    <ScrollScale>
+                        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">At a Glance</h2>
+                            <p className="text-gray-700 text-lg leading-relaxed">
+                                {data.intro}
+                            </p>
+                        </div>
+                    </ScrollScale>
 
                     {/* Comparison Grid */}
                     <div className="grid md:grid-cols-2 gap-8 mb-12">
                         {data.sections.map((section, idx) => (
-                            <div key={idx} className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
-                                <div className={`p-6 bg-gray-50 border-b border-gray-100`}>
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{section.title}</h3>
-                                    <p className="text-gray-600 text-sm">{section.description}</p>
-                                </div>
-                                <div className="p-6 flex-grow">
-                                    <h4 className="font-semibold text-green-600 mb-4 flex items-center gap-2">
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        Pros
-                                    </h4>
-                                    <ul className="space-y-3 mb-8">
-                                        {section.pros.map((pro, i) => (
-                                            <li key={i} className="flex gap-3 text-gray-600 text-sm">
-                                                <span className="text-green-500 mt-1">•</span>
-                                                {pro}
-                                            </li>
-                                        ))}
-                                    </ul>
+                            <ScrollScale key={idx} className="h-full">
+                                <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                                    <div className={`p-6 bg-gray-50 border-b border-gray-100`}>
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-2">{section.title}</h3>
+                                        <p className="text-gray-600 text-sm">{section.description}</p>
+                                    </div>
+                                    <div className="p-6 flex-grow">
+                                        <h4 className="font-semibold text-green-600 mb-4 flex items-center gap-2">
+                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            Pros
+                                        </h4>
+                                        <ul className="space-y-3 mb-8">
+                                            {section.pros.map((pro, i) => (
+                                                <li key={i} className="flex gap-3 text-gray-600 text-sm">
+                                                    <span className="text-green-500 mt-1">•</span>
+                                                    {pro}
+                                                </li>
+                                            ))}
+                                        </ul>
 
-                                    <h4 className="font-semibold text-red-600 mb-4 flex items-center gap-2">
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        Cons
-                                    </h4>
-                                    <ul className="space-y-3">
-                                        {section.cons.map((con, i) => (
-                                            <li key={i} className="flex gap-3 text-gray-600 text-sm">
-                                                <span className="text-red-500 mt-1">•</span>
-                                                {con}
-                                            </li>
-                                        ))}
-                                    </ul>
+                                        <h4 className="font-semibold text-red-600 mb-4 flex items-center gap-2">
+                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            Cons
+                                        </h4>
+                                        <ul className="space-y-3">
+                                            {section.cons.map((con, i) => (
+                                                <li key={i} className="flex gap-3 text-gray-600 text-sm">
+                                                    <span className="text-red-500 mt-1">•</span>
+                                                    {con}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
+                            </ScrollScale>
                         ))}
                     </div>
 
                     {/* Verdict */}
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-xl p-8 md:p-12 text-center text-white">
-                        <h2 className="text-3xl font-bold mb-6">The Verdict</h2>
-                        <p className="text-xl leading-relaxed md:max-w-3xl mx-auto">
-                            {/* Render simple markdown bolding manually since we know the structure */}
-                            {data.verdict.split('**').map((part, i) =>
-                                i % 2 === 1 ? <strong key={i} className="text-teal-400">{part}</strong> : part
-                            )}
-                        </p>
-                    </div>
+                    <ScrollScale>
+                        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-xl p-8 md:p-12 text-center text-white">
+                            <h2 className="text-3xl font-bold mb-6">The Verdict</h2>
+                            <p className="text-xl leading-relaxed md:max-w-3xl mx-auto">
+                                {/* Render simple markdown bolding manually since we know the structure */}
+                                {data.verdict.split('**').map((part, i) =>
+                                    i % 2 === 1 ? <strong key={i} className="text-teal-400">{part}</strong> : part
+                                )}
+                            </p>
+                        </div>
+                    </ScrollScale>
 
                     {/* Other Comparisons */}
                     <div className="mt-16">

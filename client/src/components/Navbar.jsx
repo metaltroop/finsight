@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { Link as ScrollLink } from 'react-scroll'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useAuth } from '../context/AuthContext'
+import { LogIn, User } from 'lucide-react'
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
+    const { user, logout } = useAuth()
     const isHome = location.pathname === '/'
 
     useEffect(() => {
@@ -21,7 +24,7 @@ const Navbar = () => {
     const navLinks = [
         { name: 'Home', to: 'hero', homeOnly: true },
         { name: 'Guides', to: 'popular', homeOnly: true },
-        { name: 'Tools', to: 'tools', homeOnly: true },
+        { name: 'Tools', to: 'tools', homeOnly: false },
         { name: 'Comparisons', to: 'compare', homeOnly: true },
         { name: 'Get Started', to: 'lead-form', homeOnly: true, highlight: true }
     ]
@@ -41,8 +44,8 @@ const Navbar = () => {
     }
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled || !isHome ? 'bg-white/90 backdrop-blur-md shadow-sm py-2' : 'bg-transparent py-4'}`}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex items-center justify-between">
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled || !isHome ? 'bg-white/90 backdrop-blur-md shadow-sm py-2' : 'bg-transparent py-3'}`}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4 flex items-center justify-between">
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-2 group">
                     <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
@@ -79,6 +82,17 @@ const Navbar = () => {
                             </Link>
                         )
                     ))}
+                    {user && (
+                        <div className="flex items-center gap-4 ml-2 border-l pl-6 border-gray-200">
+                            <span className="text-sm font-bold text-gray-900 truncate max-w-[100px] hidden lg:block">Hey, {user.name.split(' ')[0]}</span>
+                            <button
+                                onClick={logout}
+                                className="text-sm font-bold text-red-500 hover:text-red-700 transition-colors bg-red-50 hover:bg-red-100 px-4 py-2 rounded-lg"
+                            >
+                                Sign Out
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 {/* Mobile Menu Toggle */}
@@ -131,6 +145,15 @@ const Navbar = () => {
                                     </Link>
                                 )
                             ))}
+                            {user ? (
+                                <button onClick={logout} className="text-lg font-medium text-red-500 text-left">
+                                    Sign Out
+                                </button>
+                            ) : (
+                                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-teal-600">
+                                    Sign In
+                                </Link>
+                            )}
                         </div>
                     </motion.div>
                 )}

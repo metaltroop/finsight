@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String            @id @default(uuid())
+  googleId          String?           @unique
+  email             String            @unique
+  name              String
+  avatar            String?
+  role              String            @default("user")
+  createdAt         DateTime          @default(now())
+  exactIncome       String?
+  incomeRange       String?
+  isVerified        Boolean           @default(false)
+  otp               String?
+  otpExpires        DateTime?
+  password          String?
+  blogs             Blog[]
+  calculatorEntries CalculatorEntry[]
+}
+
+model CalculatorEntry {
+  id         String   @id @default(uuid())
+  type       String
+  inputData  Json
+  resultData Json
+  userId     String?
+  leadId     String?
+  createdAt  DateTime @default(now())
+  lead       Lead?    @relation(fields: [leadId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id])
+}
+
+model Blog {
+  id         String   @id @default(uuid())
+  slug       String   @unique
+  title      String
+  excerpt    String?
+  content    String
+  coverImage String?
+  tags       String[]
+  readTime   String?
+  published  Boolean  @default(false)
+  isPopular  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  authorId   String
+  author     User     @relation(fields: [authorId], references: [id])
+}
+
+model Lead {
+  id                String            @id @default(uuid())
+  fullName          String
+  mobile            String
+  email             String
+  city              String
+  income            String
+  consent           Boolean           @default(true)
+  createdAt         DateTime          @default(now())
+  calculatorEntries CalculatorEntry[]
+}
+
+model Session {
+  sid    String   @id
+  sess   Json
+  expire DateTime
+
+  @@map("session")
+}
